@@ -7,8 +7,6 @@ module GetAvailableSlotService
     end
 
     def call
-      return unless closest_available_slot_key
-
       ValueObjects::AvailableSlot.new(closest_available_slot_key)
     end
 
@@ -17,11 +15,11 @@ module GetAvailableSlotService
     attr_reader :params
 
     def closest_available_slot_key
-      @closest_available_slot_key ||= available_slots.keys.first
+      available_slots.keys.first || new_slot
     end
 
-    def booked_slots
-      @booked_slots ||= Adapters::BookedSlots.new.call
+    def new_slot
+      slot_key(params.merge(zone: requested_zone(params[:address])))
     end
 
     def available_slots
@@ -31,9 +29,13 @@ module GetAvailableSlotService
         .select(&method(:less_than_two_booked_slots))
     end
 
+    def booked_slots
+      @booked_slots ||= Adapters::BookedSlots.new.call
+    end
+
     def by_user_request(slot)
       slot[:zone] == requested_zone(params[:address]) &&
-        Date.parse(slot[:date]) == params[:date] &&
+        slot[:date] == params[:date] &&
         slot[:time_period].to_i >= params[:time_period].to_i
     end
 
