@@ -1,3 +1,5 @@
 # frozen_string_literal: true
 
-require 'get_available_slot_service/entry_point'
+require 'date'
+
+Dir["./lib/get_available_slot_service/**/*.rb"].each { require _1 }
