@@ -2,4 +2,4 @@
 
 require 'date'
 
-Dir["./lib/get_available_slot_service/**/*.rb"].each { require _1 }
+Dir['./lib/get_available_slot_service/**/*.rb'].each { require _1 }
