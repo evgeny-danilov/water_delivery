@@ -26,6 +26,6 @@ RSpec.describe GetAvailableSlotService::EntryPoint do
   end
 
   it 'return result' do
-    expect(subject).to have_attributes(date: '2020-12-07', time_period: '3')
+    expect(subject).to have_attributes(date: '2020-12-07', time_period: '3', zone_name: 'undefined')
   end
 end

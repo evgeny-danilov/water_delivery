@@ -17,8 +17,8 @@ module GetAvailableSlotService
         params[:time_period]
       end
 
-      def zone
-        params[:zone]
+      def address
+        params[:address]
       end
     end
   end

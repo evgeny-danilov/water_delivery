@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe GetAvailableSlotService::GetAvailableSlot do
-  subject { described_class.new(orders: orders, user_request: user_request) }
+  subject { described_class.new(orders: orders, user_request: user_request).call }
 
   let(:orders) do
     [
@@ -16,10 +16,10 @@ RSpec.describe GetAvailableSlotService::GetAvailableSlot do
   end
 
   let(:user_request) do
-    double(date: Date.today, time_period: time_period)
+    double(date: Date.today, time_period: '2')
   end
 
   it 'returns available slot' do
-    expect(subject).to eq()
+    expect(subject).to eq({})
   end
 end

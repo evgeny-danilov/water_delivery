@@ -3,10 +3,10 @@
 module GetAvailableSlotService
   class EntryPoint
 
-    STRATEGIES = {
-      minsk: GetZoneNameDependencied::MinskStrategy,
-      berlin: GetZoneNameDependencied::BerlinStrategy,
-    }.freeze
+    ZONE_STRATEGIES = [
+      GetZoneStrategies::Minsk,
+      GetZoneStrategies::Berlin,
+    ].freeze
 
     def initialize(params)
       @user_request = ValueObjects::UserRequestForm.new(params)
@@ -15,7 +15,7 @@ module GetAvailableSlotService
     def call
       date, time_period = available_slot.keys.first.split('$')
 
-      ValueObjects::Slot.new(date: date, time_period: time_period)
+      ValueObjects::Slot.new(date: date, time_period: time_period, zone_name: zone_name)
     end
 
     private
@@ -30,14 +30,14 @@ module GetAvailableSlotService
       GetAvailableSlot.new(orders: orders, user_request: user_request).call
     end
 
-    def time_zone_strategy
-      if user_request.zone.start_with?('Minsk, ')
-        STRATEGIES[:minsk]
-      elsif user_request.zone.start_with?('Berlin, ')
-        STRATEGIES[:berlin]
-      else
-        raise NotImplementedError
-      end
+    def zone_name
+      get_zone_strategy&.zone_name || 'undefined'
+    end
+
+    def get_zone_strategy
+      ZONE_STRATEGIES
+        .map(&:new)
+        .detect { _1.applicable?(user_request.address) }
     end
 
   end
