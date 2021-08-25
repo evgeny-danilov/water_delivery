@@ -2,12 +2,16 @@
 
 module GetAvailableSlotService
   class EntryPoint
-    def initialize
-      raise NotImplementedError
+    def initialize(params:)
+      @params = params
     end
 
     def call
-      raise NotImplementedError
+      byebug
     end
+
+    private
+
+    attr_reader :params
   end
 end
