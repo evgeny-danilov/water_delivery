@@ -13,6 +13,20 @@ RSpec.describe GetAvailableSlotService::EntryPoint do
     }
   end
 
+  let(:slots) do
+    [
+      { date: '2020-12-07', time_period: '1', zone: 'A', address: 'street-10/7' },
+      { date: '2020-12-07', time_period: '1', zone: 'A', address: 'street-23/3' },
+      { date: '2020-12-07', time_period: '2', zone: 'A', address: 'street-1/6' },
+      { date: '2020-12-07', time_period: '2', zone: 'A', address: 'street-1/57' },
+      { date: '2020-12-07', time_period: '3', zone: 'A', address: 'street-5/7' },
+    ]
+  end
+
+  before do
+    expect(Slot).to receive(:all).and_return(slots)
+  end
+
   it 'produces the result' do
     subject
   end

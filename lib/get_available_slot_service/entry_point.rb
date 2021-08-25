@@ -13,5 +13,9 @@ module GetAvailableSlotService
     private
 
     attr_reader :params
+
+    def slots
+      Slot.all
+    end
   end
 end
