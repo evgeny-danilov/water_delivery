@@ -28,6 +28,6 @@ RSpec.describe GetAvailableSlotService::EntryPoint do
   end
 
   it 'produces the result' do
-    subject
+    expect(subject).to eq({ date: '2020-12-07', time_period: '3' })
   end
 end
