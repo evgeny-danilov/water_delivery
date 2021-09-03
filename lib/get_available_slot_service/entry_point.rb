@@ -2,8 +2,8 @@
 
 module GetAvailableSlotService
   class EntryPoint
-    def initialize(params:)
-      @params = params
+    def initialize(user_request:)
+      @user_request = user_request
     end
 
     def call
@@ -12,14 +12,14 @@ module GetAvailableSlotService
 
     private
 
-    attr_reader :params
+    attr_reader :user_request
 
     def closest_available_slot_key
       available_slots.keys.first
     end
 
     def new_slot
-      slot_key(params)
+      slot_key(user_request)
     end
     
     def available_slots
@@ -30,8 +30,8 @@ module GetAvailableSlotService
     end
 
     def by_user_request(slot)
-      slot[:date] == params[:date] &&
-        slot[:time_period] >= params[:time_period]
+      slot[:date] == user_request[:date] &&
+        slot[:time_period] >= user_request[:time_period]
     end
 
     def slot_key(slot)

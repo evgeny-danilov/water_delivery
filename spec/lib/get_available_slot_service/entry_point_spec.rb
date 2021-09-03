@@ -3,9 +3,9 @@
 require 'spec_helper'
 
 RSpec.describe GetAvailableSlotService::EntryPoint do
-  subject { described_class.new(params: params).call }
+  subject { described_class.new(user_request: user_request).call }
 
-  let(:params) do
+  let(:user_request) do
     {
       date: '2020-12-07',
       address: 'street-10/7',
@@ -32,7 +32,7 @@ RSpec.describe GetAvailableSlotService::EntryPoint do
   end
 
   context 'when there is no booked slots within the request parameters' do
-    let(:params) { { date: '2020-12-08', time_period: '2', address: 'street-5/7' } }
+    let(:user_request) { { date: '2020-12-08', time_period: '2', address: 'street-5/7' } }
 
     it 'returns the result' do
       expect(subject).to have_attributes(date: '2020-12-08', time_period: '2')
