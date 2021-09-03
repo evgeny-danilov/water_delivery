@@ -3,7 +3,7 @@
 module GetAvailableSlotService
   class EntryPoint
     def initialize(user_request:)
-      @user_request = user_request
+      @user_request = Forms::UserRequest.new(user_request)
     end
 
     def call
@@ -30,12 +30,12 @@ module GetAvailableSlotService
     end
 
     def by_user_request(slot)
-      slot[:date] == user_request[:date] &&
-        slot[:time_period] >= user_request[:time_period]
+      slot.date == user_request.date &&
+        slot.time_period >= user_request.time_period
     end
 
     def slot_key(slot)
-      [slot[:date], slot[:time_period]].join(Constants::SLOT_KEY_SPLITTER)
+      [slot.date, slot.time_period].join(Constants::SLOT_KEY_SPLITTER)
     end
 
     def less_than_two_booked_slots(_slot_key, count)
