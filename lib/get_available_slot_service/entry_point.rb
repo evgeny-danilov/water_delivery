@@ -7,9 +7,10 @@ module GetAvailableSlotService
     end
 
     def call
-      byebug
+      # byebug
+      available_slot_params = available_slots.keys.first.split('$')
 
-      available_slots
+      { date: available_slot_params.first, time_period: available_slot_params.last }
     end
 
     private
