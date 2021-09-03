@@ -7,12 +7,16 @@ module GetAvailableSlotService
     end
 
     def call
-      ValueObjects::AvailableSlot.new(available_slots.keys.first)
+      ValueObjects::AvailableSlot.new(available_slots.keys.first || new_slot)
     end
 
     private
 
     attr_reader :params
+    
+    def new_slot
+      slot_key(params)
+    end
 
     def booked_slots
       Slot.all

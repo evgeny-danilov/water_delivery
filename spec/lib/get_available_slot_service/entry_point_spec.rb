@@ -30,4 +30,12 @@ RSpec.describe GetAvailableSlotService::EntryPoint do
   it 'produces the result' do
     expect(subject).to have_attributes(date: '2020-12-07', time_period: '3')
   end
+
+  context 'when there is no booked slots within the request parameters' do
+    let(:params) { { date: '2020-12-08', time_period: '2', address: 'street-5/7' } }
+
+    it 'returns the result' do
+      expect(subject).to have_attributes(date: '2020-12-08', time_period: '2')
+    end
+  end
 end
